@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>GPA Prediction Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav {
+            display: flex;
+            gap: 15px; /* space between menu items */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #45a049; /* darker green on hover */
+        }
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        select, input[type="number"], button {
+            width: calc(100% - 22px); /* full width minus padding and borders */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+        select:focus, input[type="number"]:focus, button:hover {
+            border-color: #4CAF50; /* change border color on focus */
+            outline: none; /* remove default outline */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049; /* darker green on hover */
+        }
+        .explanation {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div>GPAPredictor</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </nav>
+</header>
+
+<h2>Enter Student Information</h2>
+<form th:action="@{/predictGPA}" th:object="${studentData}" method="post">
+    <label>Age:
+        <select th:field="*{age}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+        </select>
+    </label>
+
+    <label>Gender:
+        <select th:field="*{gender}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">Male</option>
+            <option value="1">Female</option>
+        </select>
+    </label>
+
+    <label>Ethnicity:
+        <select th:field="*{ethnicity}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">0: Not Specified</option>
+            <option value="1">1: Hispanic</option>
+            <option value="2">2: Black</option>
+            <option value="3">3: White</option>
+        </select>
+    </label>
+
+    <label>Parental Education:
+        <select th:field="*{parentalEducation}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">0: Less than High School</option>
+            <option value="1">1: High School Graduate</option>
+            <option value="2">2: Some College</option>
+            <option value="3">3: Bachelor's Degree</option>
+            <option value="4">4: Graduate Degree</option>
+        </select>
+    </label>
+
+    <label>Study Time Weekly (Hours):
+        <input type="number" th:field="*{studyTimeWeekly}" min="0" max="20" required
+               oninvalid="this.setCustomValidity('Please enter a number between 0 and 20.')"
+               oninput="this.setCustomValidity('')"/>
+    </label>
+
+    <label>Absences:
+        <input type="number" th:field="*{absences}" min="0" max="30" required
+               oninvalid="this.setCustomValidity('Please enter a number between 0 and 30.')"
+               oninput="this.setCustomValidity('')"/>
+    </label>
+
+    <label>Tutoring:
+        <select th:field="*{tutoring}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+    </label>
+
+    <label>Parental Support:
+        <select th:field="*{parentalSupport}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">0: No Support</option>
+            <option value="1">1: Low Support</option>
+            <option value="2">2: Moderate Support</option>
+            <option value="3">3: High Support</option>
+            <option value="4">4: Very High Support</option>
+        </select>
+    </label>
+
+    <label>Extracurricular:
+        <select th:field="*{extracurricular}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+    </label>
+
+    <label>Sports:
+        <select th:field="*{sports}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+    </label>
+
+    <label>Music:
+        <select th:field="*{music}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+    </label>
+
+    <label>Volunteering:
+        <select th:field="*{volunteering}" required>
+            <option value="" disabled selected>Select...</option> <!-- Placeholder option -->
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+    </label>
+
+    <button type="submit">Predict GPA</button>
+</form>
+</body>
+</html>
